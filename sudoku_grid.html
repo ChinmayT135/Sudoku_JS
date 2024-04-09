@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solve->Sudoku</title>
+    <script type="text/javascript" src="solve_sudoku.js"></script>
+    <style type="text/css">
+        body{ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
+        #container{ text-align: center; }
+        table { border-collapse: collapse; font-size: 2em; margin: 0 auto;}
+        colgroup, tbody { border: solid medium; }
+        td { border: solid thin; height: 1.4em; width: 1.4em; text-align: center; padding: 0; }
+        button { margin-top: 15px; font-size: 1.5em; }
+    
+        padd{padding-bottom: 100px;}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 class="padd">LET'S SOLVE SUDOKU !! SHALL WE ?!</h1>
+        <table id="sudoku-board">
+        <colgroup><col><col><col>
+        <colgroup><col><col><col>
+        <colgroup><col><col><col>
+        <tbody>
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>     
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        <tbody>
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>     
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        <tbody>
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>     
+        <tr> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td> <td contenteditable="true"></td>
+   
+        </table>
+        <div><button id="solve-button">Click to Solve !!</button></div>
+        <div><button id="clear-button">Click to Clear the Board !!</button></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    document.getElementById("sudoku-board").addEventListener("keyup", function(event){
+        if(event.target && event.target.nodeName == "TD"){
+            var validNum = /[1-9]/ ;
+            if(event.target.innerText.length > 0 && validNum.test(event.target.innerText[0]))
+                event.target.innerText = event.target.innerText[0];
+            else
+                event.target.innerText = "";
+        }
+    });
+    document.getElementById("solve-button").addEventListener("click", function(event){
+        var boardArray = new Array();
+        boardtoArray(boardArray);
+        var flag = isboardValid(boardArray);
+        if(flag){
+            solveSudoku(boardArray);
+            Arraytoboard(boardArray);
+        }else
+            alert("Invalid board!");
+    });
+    document.getElementById("clear-button").addEventListener("click", clearboard);
+    
+    function clearboard() {
+        var tds = document.getElementsByTagName("td");
+        for(var i=0 ; i<tds.length ; i++)
+            tds[i].innerText = "";
+    }
+
+    function boardtoArray(boardArray){
+        var tds = document.getElementsByTagName("td");
+        for(var i=0 ; i<tds.length ; i++){
+            if(tds[i].innerText)
+                boardArray.push(tds[i].innerText);
+            else
+                boardArray.push(0);
+        }
+    }
+
+    function Arraytoboard(solved_array){
+        var counter = 0;
+        var tds = document.getElementsByTagName("td");
+        for(var i=0 ; i<tds.length ; i++){
+            if(!tds[i].innerText)
+                tds[i].innerText = solved_array[counter];
+            counter++;
+        }
+    }
+</script>
+</html>
